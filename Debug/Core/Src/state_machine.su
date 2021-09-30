@@ -1,0 +1,16 @@
+state_machine.c:15:15:ON_State_Entry	24	static
+state_machine.c:23:15:ON_State_Continue	24	static
+state_machine.c:30:15:ON_State_Exit	24	static
+state_machine.c:40:15:OFF_State_Entry	24	static
+state_machine.c:48:15:OFF_State_Continue	24	static
+state_machine.c:57:15:OFF_State_Exit	24	static
+state_machine.c:67:15:DEFAULT_State	24	static
+state_machine.c:74:15:Ignore_Event	24	static
+state_machine.c:110:6:StateMachine_Dispatch	32	static
+state_machine.c:128:6:set_state	16	static
+state_machine.c:133:16:get_state	16	static
+state_machine.c:139:6:initstatemachine	16	static
+state_machine.c:148:6:initevent	16	static
+state_machine.c:159:6:init_buffer	16	static
+state_machine.c:173:6:Add_Event_To_Buffer	16	static
+state_machine.c:193:15:Pop_Event_From_Buffer	24	static
