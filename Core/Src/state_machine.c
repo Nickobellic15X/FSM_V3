@@ -1,10 +1,4 @@
-/*
- * state_machine.c
- *
- *  Created on: 24 Aug 2021
- *      Author: nigil
- *
- */
+
 #include "statemachine.h"
 #include "main.h"
 
@@ -75,37 +69,19 @@ static status Ignore_Event(StateMachine *me,Event *e, Event_Queue *buffer)
 {
 	return STATE_IGNORED;
 }
-//void STARTUP_Event(StateMachine *me, Event *e, Event_Queue *buffer){
-//
-//}
 
 
 typedef status (*StateMachineAction)(StateMachine *me, Event *e, Event_Queue *buffer);
 
-/* > Add an event called timeout, it is used very freq
- * > GETICK for HAL STM32 for return current tick.
- * > Have some interface functions
- * > The HAL func changes frm uC to uC, we need to adapt  for it.
- * >
- * */
+
 StateMachineAction const Statemachine_table[MAXSTATES][MAXEVENTS] ={
 	               /* No Event*/ 	  		/*STARTUP*/ 				  			/*PA0*/         				 /* PC13*/
-/* On State */ 	 {&ON_State_Continue, 	 &Ignore_Event,      					 &Ignore_Event,    					 &ON_State_Exit/*onstatePC13*/  },
-/*Off state */	 {&OFF_State_Continue,	 &Ignore_Event,      					 &OFF_State_Exit/*offstatePA0*/,     &Ignore_Event   },
+/* On State */ 	 {&ON_State_Continue, 	 &Ignore_Event,      					 &Ignore_Event,    					 &ON_State_Exit  },
+/*Off state */	 {&OFF_State_Continue,	 &Ignore_Event,      					 &OFF_State_Exit,   			     &Ignore_Event   },
 /*Default state*/{&Ignore_Event, 		 &DEFAULT_State/*Default start up*/,     &Ignore_Event,    					 &OFF_State_Entry},
 };
 
-/*pop the event
-	 * then execute below
-	 * Before calling pop() we can check the buffer length
-	 * Or if the event received is no event, don't call state machine table
-*/
-/*
- * If a state requires you to evaluate a guard condition and then move to another
- * state depending on the guard evaluation, insert the guard in the state in question
- * and avoid having an exit action (or an exit function) this would simplify the code and
- * logic further
- */
+
 
 void StateMachine_Dispatch(StateMachine * me, Event *e, Event_Queue *buffer)
 {
@@ -151,15 +127,11 @@ void initevent(Event *me)
 	return;
 }
 
-/*
- * 	It's better to use static allocation instead of dy. allc
- * 	memset func to set an array, memcopy to copy the memory
- *
- * 	*/
+
 void init_buffer(Event_Queue *me,int size_of_buffer){
 	me->size_of_buffer = size_of_buffer;
 	me->event_buffer =  (event_typedef*)malloc(me->size_of_buffer*sizeof(event_typedef)); //Initializing the buffer to zero causes some problems, use malloc instead to solve this issue
-	me->event_buffer[0] = STARTUP;  //Load the first event as start up
+	me->event_buffer[0] = STARTUP;
 	me->current_buffer_length = 1;
 	me->read_index = 0;
 	me->write_index = 1;
